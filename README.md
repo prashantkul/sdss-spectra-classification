@@ -4,6 +4,8 @@ Supervised multiclass classification of astronomical objects (**star**, **galaxy
 
 **Repository:** [github.com/prashantkul/sdss-spectra-classification](https://github.com/prashantkul/sdss-spectra-classification)
 
+**New to the project?** Start with [GETTING_STARTED.md](GETTING_STARTED.md).
+
 ## Dataset
 
 Data in this repo comes from the Kaggle dataset **Stellar Classification Dataset — SDSS17** ([download / data tab](https://www.kaggle.com/datasets/fedesoriano/stellar-classification-dataset-sdss17/data), published by [fedesoriano](https://www.kaggle.com/fedesoriano)).
@@ -86,6 +88,7 @@ jupyter notebook sdss_analysis.ipynb
 
 | Path | Role |
 |------|------|
+| `GETTING_STARTED.md` | Onboarding: setup, what to run, file roles |
 | `sdss_analysis.ipynb` | End-to-end EDA, training, metrics, plots |
 | `main.py` | Script entrypoint |
 | `analysis.py`, `load_data.py`, `config.py` | Training and data helpers |
