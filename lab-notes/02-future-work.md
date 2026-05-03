@@ -1,37 +1,73 @@
-# 02 — Future work
+# 02 — Future work (from first principles)
 
-Concrete next steps if this project grows beyond the Random Forest baseline.
+Each item below starts from a **gap between the ideal target** (low risk under the real deployment distribution) and what a single Random Forest on tabular photometry achieves, then narrows to actionable work.
 
-## Modelling
+---
 
-1. **Hyperparameter search** — `GridSearchCV` / `RandomizedSearchCV` on `n_estimators`, `max_depth`, `min_samples_leaf`, and `max_features`. The current settings are a reasonable default, not an optimum.
+## 1. Approximation error: is the hypothesis class too small?
 
-2. **Stronger tabular learners** — Gradient-boosted trees (XGBoost, LightGBM, CatBoost) often gain a few points on mixed feature types and can handle mild imbalance with `scale_pos_weight` / class weights.
+The Bayes-optimal decision rule may be **complex** (non-axis-aligned, interactions at many scales). A finite-depth forest with limited trees only approximates that rule. **Bias** in the learning-theory sense remains even with infinite data.
 
-3. **Class weights** — If the training distribution drifts from the sky (e.g. oversampling quasars), retrain with `class_weight='balanced'` or explicit weights and re-check per-class precision/recall.
+**Concrete direction:** Increase **capacity** in a controlled way—deeper trees, more trees, or a **richer class** (gradient boosting with shallow base learners often approximates smoother boundaries than a single RF of comparable size). **Search** hyperparameters (depth, `min_samples_leaf`, learning rate if boosting) on a validation fold so gains are not luck.
 
-4. **Calibration** — Temperature scaling or isotonic regression on validation data so reported probabilities match empirical frequencies—useful if downstream decisions use a probability threshold.
+---
 
-5. **Ensembles** — Blend RF + GBM with stacked logits or simple averaging on difficult pairs (especially QSO vs GALAXY).
+## 2. Estimation error: do we need more or better data?
 
-## Features
+With finite \(n\), we estimate \(f\) with **variance**. Collecting more **i.i.d.** data from the same \(P(x,y)\) tightens generalization bounds in expectation; **active** selection helps if labelling spectra is expensive.
 
-6. **Colour indices** — Engineered features such as `u−g`, `g−r`, `r−i`, `i−z` reduce redundancy and align with how astronomers separate loci in colour–colour space.
+**Concrete direction:** For this repo, \(n = 10^5\) is already large for tabular RF; the bottleneck is often **distribution shift** (below), not raw count. If subsampling for speed, stratify by class and by redshift.
 
-7. **Morphology / extendedness** — If available (e.g. from imaging), separating point-like vs resolved sources directly attacks the QSO–galaxy confusion seen in photometry-only models.
+---
 
-8. **Spectra** — The endgame for ambiguous cases: even low-S/N classification from line templates outperforms photometry where manifolds overlap.
+## 3. Prior shift and cost-sensitive decisions
 
-## Evaluation
+The **base rate** \(P(y)\) in the catalogue may differ from the sky population you care about. The Bayes rule depends on **priors**; a model tuned for one \(P(y)\) is **not optimal** when priors change unless you **reweight** or adjust thresholds.
 
-9. **Stratified reporting by redshift and magnitude bins** — Performance often degrades at faint limits or high z; slice the test set accordingly.
+**Concrete direction:** Use `class_weight`, explicit loss matrices, or resampling so **precision/recall per class** match science goals (e.g. rare quasar completeness vs purity).
 
-10. **Cross-survey generalization** — Train on one footprint or release and test on another to measure catalogue bias, not just IID test accuracy.
+---
 
-11. **Uncertainty** — Conformal prediction or ensemble disagreement for error bars on each class probability.
+## 4. Calibration: when probabilities must mean frequencies
 
-## Engineering
+If downstream decisions use a **cut on \(P(y|x)\)** (e.g. trigger spectroscopic follow-up when \(P(\text{QSO}) > 0.9\)), you need **calibrated** probabilities: predicted 0.9 should occur on ~90% of such predictions over the long run **on the deployment distribution**.
 
-12. **CLI + config** — YAML or Hydra for paths, seeds, and model YAML so `main.py` runs match notebook experiments.
+RF and boosted trees are often **miscalibrated** out of the box.
 
-13. **Tests** — Smoke tests on a tiny CSV subset to guard `load_data` and encoding logic in CI.
+**Concrete direction:** Post-hoc calibration on a **held-out** set—Platt scaling, isotonic regression, or temperature scaling on logits if you add a parametric head.
+
+---
+
+## 5. Representation: sufficiency of features
+
+No algorithm can recover information **not present** in \(x\). If \(x\) is **photometry only**, then any two classes with **overlapping** class-conditional densities \(p(x \mid y)\) incur **irreducible error** regardless of model.
+
+**Concrete direction:** Add **minimal sufficient statistics** astronomers use: explicit **colour indices**, extendedness/morphology, variability, or low-resolution **spectral features**. Each addition moves \(x\) toward a space where **overlap shrinks** (if the new observable carries new information).
+
+---
+
+## 6. Generalization beyond this catalogue
+
+Risk on a random test row from the **same CSV** estimates **in-sample** generalization only. **Domain shift**—new observing system, depth, dust maps, selection—changes \(P(x)\) or \(P(y \mid x)\).
+
+**Concrete direction:** **External validation**: train on one survey slice, plate range, or magnitude bin; test on another. Report **degradation**, not just headline accuracy.
+
+---
+
+## 7. Uncertainty beyond a point estimate
+
+A single label \(\hat{y}\) throws away information. **Epistemic** uncertainty (model unsure) differs from **aleatoric** uncertainty (overlap in \(p(x|y)\)).
+
+**Concrete direction:** Ensembles, dropout-free **deep** models with MC dropout (if used), **conformal prediction** for finite-sample coverage guarantees, or **evidential** heads—choose based on whether you need **intervals** or **class sets**.
+
+---
+
+## 8. Engineering: reproducible experiments
+
+Science requires that **claims** (tables, figures) be **functions** of declared code, data version, and seed.
+
+**Concrete direction:** Config files for paths and hyperparameters; CI smoke tests on tiny extracts; notebook outputs treated as **build artifacts** when publishing.
+
+---
+
+*See `01-lessons-learned.md` for how the current baseline fits into this picture.*
