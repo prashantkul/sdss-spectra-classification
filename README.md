@@ -2,7 +2,7 @@
 
 Supervised multiclass classification of astronomical objects (**star**, **galaxy**, **quasar**) from photometry and metadata similar to the Sloan Digital Sky Survey (SDSS). This repo includes a [Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) baseline, a small Python package layout (`main.py`, `analysis.py`), and an interactive walkthrough in `sdss_analysis.ipynb`.
 
-**Repository:** [github.com/prashantkul/sdd-spectra-classification](https://github.com/prashantkul/sdd-spectra-classification)
+**Repository:** [github.com/prashantkul/sdss-spectra-classification](https://github.com/prashantkul/sdss-spectra-classification)
 
 ## Dataset
 
@@ -51,8 +51,8 @@ On the held-out test set (20,000 samples), the notebook reports **test accuracy 
 ## Installation
 
 ```bash
-git clone git@github.com:prashantkul/sdd-spectra-classification.git
-cd sdd-spectra-classification
+git clone git@github.com:prashantkul/sdss-spectra-classification.git
+cd sdss-spectra-classification
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -74,7 +74,7 @@ python main.py
 jupyter notebook sdss_analysis.ipynb
 ```
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/prashantkul/sdd-spectra-classification/blob/main/sdss_analysis.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/prashantkul/sdss-spectra-classification/blob/main/sdss_analysis.ipynb)
 
 *(After first push, upload `dataset/star_classification.csv` to Colab or mount Drive if you run remotely.)*
 
