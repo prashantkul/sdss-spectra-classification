@@ -9,9 +9,9 @@ Supervised multiclass classification of astronomical objects (**star**, **galaxy
 | Doc | Description |
 |-----|-------------|
 | [GETTING_STARTED.md](GETTING_STARTED.md) | Onboarding: environment, what to run first, file roles, troubleshooting |
-| [lab-notes / 01 — Lessons learned](lab-notes/01-lessons-learned.md) | Takeaways from building the baseline |
-| [lab-notes / 02 — Future work](lab-notes/02-future-work.md) | Model, features, and engineering next steps |
-| [lab-notes / 03 — Why misclassifications happen](lab-notes/03-why-misclassifications-happen.md) | Error modes (e.g. QSO vs galaxy) and interpretation caveats |
+| [lab-notes / 01 — Lessons learned](lab-notes/01-lessons-learned.md) | Theory-first takeaways (supervised risk, scaling, leakage, importance) |
+| [lab-notes / 02 — Future work](lab-notes/02-future-work.md) | Approximation vs estimation, priors, calibration, features, shift |
+| [lab-notes / 03 — Why misclassifications happen](lab-notes/03-why-misclassifications-happen.md) | Bayes error, overlap in \(p(x|y)\), label noise, confident errors |
 
 ## Dataset
 
