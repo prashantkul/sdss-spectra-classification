@@ -6,9 +6,13 @@ Supervised multiclass classification of astronomical objects (**star**, **galaxy
 
 ## Dataset
 
-- **Source file:** `dataset/star_classification.csv` (100,000 rows, 18 columns).
+Data in this repo comes from the Kaggle dataset **Stellar Classification Dataset — SDSS17** ([download / data tab](https://www.kaggle.com/datasets/fedesoriano/stellar-classification-dataset-sdss17/data), published by [fedesoriano](https://www.kaggle.com/fedesoriano)).
+
+- **Bundled file:** `dataset/star_classification.csv` (100,000 rows, 18 columns).
 - **Target:** `class` (GALAXY, STAR, QSO).
 - **Features:** SDSS-style magnitudes `u, g, r, i, z`, positions (`alpha`, `delta`), `redshift`, plate/MJD/fiber identifiers, and related IDs.
+
+If you clone without the CSV, download the dataset from Kaggle (account required), unzip if needed, and place `star_classification.csv` under `dataset/` (or adjust paths in the notebook / `load_data.py`).
 
 ## Model approach
 
@@ -90,5 +94,6 @@ jupyter notebook sdss_analysis.ipynb
 
 ## References
 
+- [Stellar Classification Dataset — SDSS17 (Kaggle)](https://www.kaggle.com/datasets/fedesoriano/stellar-classification-dataset-sdss17/data)
 - [Sloan Digital Sky Survey](https://www.sdss.org/)
 - [scikit-learn user guide](https://scikit-learn.org/stable/user_guide.html)
