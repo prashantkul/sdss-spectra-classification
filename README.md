@@ -91,6 +91,7 @@ jupyter notebook sdss_analysis.ipynb
 | `analysis.py`, `load_data.py`, `config.py` | Training and data helpers |
 | `dataset/` | CSV (and optional `archive.zip`) |
 | `docs/plots/` | Notebook figures for the README |
+| `lab-notes/` | Numbered notes: lessons learned, future work, misclassifications |
 
 ## References
 
