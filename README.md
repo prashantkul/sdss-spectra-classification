@@ -4,7 +4,14 @@ Supervised multiclass classification of astronomical objects (**star**, **galaxy
 
 **Repository:** [github.com/prashantkul/sdss-spectra-classification](https://github.com/prashantkul/sdss-spectra-classification)
 
-**New to the project?** Start with [GETTING_STARTED.md](GETTING_STARTED.md).
+## Documentation
+
+| Doc | Description |
+|-----|-------------|
+| [GETTING_STARTED.md](GETTING_STARTED.md) | Onboarding: environment, what to run first, file roles, troubleshooting |
+| [lab-notes / 01 — Lessons learned](lab-notes/01-lessons-learned.md) | Takeaways from building the baseline |
+| [lab-notes / 02 — Future work](lab-notes/02-future-work.md) | Model, features, and engineering next steps |
+| [lab-notes / 03 — Why misclassifications happen](lab-notes/03-why-misclassifications-happen.md) | Error modes (e.g. QSO vs galaxy) and interpretation caveats |
 
 ## Dataset
 
@@ -88,13 +95,12 @@ jupyter notebook sdss_analysis.ipynb
 
 | Path | Role |
 |------|------|
-| `GETTING_STARTED.md` | Onboarding: setup, what to run, file roles |
+| [GETTING_STARTED.md](GETTING_STARTED.md), [lab-notes/](lab-notes/) | Narrative docs — see [Documentation](#documentation) |
 | `sdss_analysis.ipynb` | End-to-end EDA, training, metrics, plots |
 | `main.py` | Script entrypoint |
 | `analysis.py`, `load_data.py`, `config.py` | Training and data helpers |
 | `dataset/` | CSV (and optional `archive.zip`) |
 | `docs/plots/` | Notebook figures for the README |
-| `lab-notes/` | Numbered notes: lessons learned, future work, misclassifications |
 
 ## References
 
